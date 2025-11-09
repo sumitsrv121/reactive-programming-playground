@@ -18,4 +18,28 @@ public class ExternalServiceClient extends AbstractHttpClient {
                 .responseContent()
                 .asString();
     }
+
+    public Mono<String> fetchProductName(int productId) {
+        return this.httpClient.get()
+                .uri("/demo03/product/" + productId)
+                .responseContent()
+                .aggregate()
+                .asString();
+    }
+
+    public Mono<String> fallbackForEmptyProductName(int productId) {
+        return this.httpClient.get()
+                .uri("/demo03/empty-fallback/product/" + productId)
+                .responseContent()
+                .aggregate()
+                .asString();
+    }
+
+    public Mono<String> fallbackForTimeoutProductName(int productId) {
+        return this.httpClient.get()
+                .uri("/demo03/timeout-fallback/product/" + productId)
+                .responseContent()
+                .aggregate()
+                .asString();
+    }
 }
