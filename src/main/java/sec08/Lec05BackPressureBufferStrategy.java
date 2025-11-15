@@ -21,7 +21,9 @@ public class Lec05BackPressureBufferStrategy {
                 .cast(Integer.class)
                 .subscribeOn(Schedulers.parallel());
 
-        flux.onBackpressureBuffer()
+        flux
+                //.onBackpressureBuffer()
+                .onBackpressureError()
                 .limitRate(1)
                 .publishOn(Schedulers.boundedElastic())
                 .map(Lec05BackPressureBufferStrategy::timeConsumingTask)
