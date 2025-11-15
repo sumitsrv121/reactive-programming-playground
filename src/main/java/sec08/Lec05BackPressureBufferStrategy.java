@@ -8,6 +8,7 @@ import reactor.core.scheduler.Schedulers;
 
 public class Lec05BackPressureBufferStrategy {
     private static final Logger log = LoggerFactory.getLogger(Lec05BackPressureBufferStrategy.class);
+
     public static void main(String[] args) {
         var flux = Flux.
                 create(sink -> {
@@ -23,7 +24,8 @@ public class Lec05BackPressureBufferStrategy {
 
         flux
                 //.onBackpressureBuffer()
-                .onBackpressureError()
+                //.onBackpressureError()
+                .onBackpressureBuffer(10)
                 .limitRate(1)
                 .publishOn(Schedulers.boundedElastic())
                 .map(Lec05BackPressureBufferStrategy::timeConsumingTask)
