@@ -4,6 +4,7 @@ import common.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
 import reactor.core.scheduler.Schedulers;
 
 public class Lec05BackPressureBufferStrategy {
@@ -18,7 +19,7 @@ public class Lec05BackPressureBufferStrategy {
                         Util.sleepMs(50);
                     }
                     sink.complete();
-                })
+                }, FluxSink.OverflowStrategy.LATEST)
                 .cast(Integer.class)
                 .subscribeOn(Schedulers.parallel());
 
@@ -27,7 +28,7 @@ public class Lec05BackPressureBufferStrategy {
                 //.onBackpressureError()
                 //.onBackpressureBuffer(10)
                 // .onBackpressureDrop(val -> log.info("Dropped: {}", val))
-                .onBackpressureLatest()
+                // .onBackpressureLatest()
                 .limitRate(1)
                 .publishOn(Schedulers.boundedElastic())
                 .map(Lec05BackPressureBufferStrategy::timeConsumingTask)
