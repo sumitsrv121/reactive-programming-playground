@@ -25,7 +25,8 @@ public class Lec05BackPressureBufferStrategy {
         flux
                 //.onBackpressureBuffer()
                 //.onBackpressureError()
-                .onBackpressureBuffer(10)
+                //.onBackpressureBuffer(10)
+                .onBackpressureDrop(val -> log.info("Dropped: {}", val))
                 .limitRate(1)
                 .publishOn(Schedulers.boundedElastic())
                 .map(Lec05BackPressureBufferStrategy::timeConsumingTask)
