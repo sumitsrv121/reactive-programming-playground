@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileWriterService {
+public class FileWriter {
     private final Path filePath;
     private BufferedWriter writer;
 
-    private FileWriterService(Path filePath) {
+    private FileWriter(Path filePath) {
         this.filePath = filePath;
     }
 
@@ -42,7 +42,7 @@ public class FileWriterService {
     }
 
     public static Mono<Void> writeToFile(Flux<String> dataStream, Path filePath) {
-        var fileWriter = new FileWriterService(filePath);
+        var fileWriter = new FileWriter(filePath);
         return dataStream
                 .doOnNext(fileWriter::writeToFile)
                 .doFirst(fileWriter::createFile)

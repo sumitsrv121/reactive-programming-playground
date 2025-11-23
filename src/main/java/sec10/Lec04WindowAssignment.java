@@ -2,7 +2,7 @@ package sec10;
 
 import common.Util;
 import reactor.core.publisher.Flux;
-import sec10.assignment.FileWriterService;
+import sec10.assignment.FileWriter;
 
 import java.nio.file.Path;
 import java.time.Duration;
@@ -15,7 +15,7 @@ public class Lec04WindowAssignment {
         eventStream()
                 .window(Duration.ofSeconds(10))
                 .flatMap(eventData ->
-                        FileWriterService.writeToFile(eventData,
+                        FileWriter.writeToFile(eventData,
                                 Path.of(filePath.formatted(counter.incrementAndGet()))
                         )
                 )
