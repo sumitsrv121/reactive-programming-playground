@@ -6,7 +6,7 @@ import reactor.core.publisher.Sinks;
 
 public class Lec01SinkOne {
     public static void main(String[] args) {
-        demo02();
+        demo03();
 
     }
 
@@ -34,5 +34,25 @@ public class Lec01SinkOne {
         mono.subscribe(Util.subscriber("Sam"));
         mono.subscribe(Util.subscriber("Mike"));
         sink.tryEmitValue("Hi");
+    }
+
+    private static void demo03() {
+        Sinks.One<Object> sink = Sinks.one();
+        Mono<Object> mono = sink.asMono();
+        mono.subscribe(Util.subscriber("Sam"));
+
+        sink.emitValue("hi", (signalType, emitResult) -> {
+            System.out.println("hi error handler");
+            System.out.println(signalType.name());
+            System.out.println(emitResult.name());
+            return false;
+        });
+
+        sink.emitValue("hello", (signalType, emitResult) -> {
+            System.out.println("hello error handler");
+            System.out.println(signalType.name());
+            System.out.println(emitResult.name());
+            return true;
+        });
     }
 }
