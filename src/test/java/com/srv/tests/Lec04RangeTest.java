@@ -49,4 +49,15 @@ public class Lec04RangeTest {
                 .expectComplete()
                 .verify();
     }
+
+    @Test
+    void rangeTest4() {
+        // consume the items till the condition is met.
+        // we have emitted 50 items in the specified range
+        // so all the items will be consumed.
+        StepVerifier.create(getRandomItems())
+                .thenConsumeWhile(value -> value >= 1 && value <= 100)
+                .expectComplete()
+                .verify();
+    }
 }
